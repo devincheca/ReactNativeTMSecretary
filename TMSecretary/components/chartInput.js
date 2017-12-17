@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-class Input extends React.Component
+class chartInput extends React.Component
 {
   constructor(props)
   {
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-module.exports = Input;
+module.exports = chartInput;

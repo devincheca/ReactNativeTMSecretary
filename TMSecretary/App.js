@@ -8,12 +8,7 @@ import {
   View,
 } from 'react-native';
 import Input from './components/input.js';
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import ChartInput from './components/chartInput.js';
 export default class App extends Component<{}> {  
   constructor(props) 
   {
@@ -28,6 +23,7 @@ export default class App extends Component<{}> {
       date: finalDate,
       reqDate: "",
       saveTime: "",
+      failed: "",
       sgtAtArms: "",
       president: "",
       attendees: "",
@@ -80,7 +76,8 @@ export default class App extends Component<{}> {
   }
   handleUserInput(input, updateType)
   {
-    switch (updateType) {
+    switch (updateType) 
+    {
       case "sgtAtArms":
         this.setState({ sgtAtArms: input });
         break;
@@ -281,6 +278,7 @@ export default class App extends Component<{}> {
         notes: initState.notes,
     });
     })
+    .catch((error) => this.setState({ failed: error, }));
   }
   handleSubmit(appState)
   {
@@ -307,7 +305,8 @@ export default class App extends Component<{}> {
         this.setState({
             saveTime: res
         });
-      });
+      })
+      .catch((error) => this.setState({ failed: error, }));
   }
   handleMinReq(date, placeholder)
   {
@@ -318,8 +317,11 @@ export default class App extends Component<{}> {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.welcome}>
+        <Text style={styles.title}>
           {this.state.date}
+        </Text>
+        <Text style={styles.body}>
+          {this.state.failed}
         </Text>
         <Button 
           type="submit" 
@@ -331,30 +333,200 @@ export default class App extends Component<{}> {
         <Text style={styles.body}>
           DREAMBUILDERS TOASTMATERS CLUB MINUTES for {this.state.date}
         </Text>
-        <Input 
-          name="sgtAtArms" 
-          type="text" 
-          value={this.state.sgtAtArms} 
-          placeholder="sgtAtArms" 
-          onUserInput={this.handleUserInput} 
-          prefix="Sgt. at Arms" 
-          suffix="announced a 2 minute warning.">
-        </Input>
+        <Input name="sgtAtArms" type="text" value={this.state.sgtAtArms} placeholder="sgtAtArms" onUserInput={ this.handleUserInput } prefix="" suffix="announced a 2 minute warning." />
+        <Input name="attendees" type="text" value={this.state.attendees} placeholder="attendees" onUserInput={ this.handleUserInput } prefix="Attendees:"/>
+        <Input name="sgtAtArms" type="text" value={this.state.sgtAtArms} placeholder="sgtAtArms" onUserInput={ this.handleUserInput } prefix="Sgt. at Arms" suffix="called the meeting to attention." />
+        <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={ this.handleUserInput } prefix="President" suffix="called the meeting to order." />
+        <Input name="pledge" type="text" value={this.state.pledge} placeholder="pledge" onUserInput={ this.handleUserInput } prefix="" suffix="led the club in the Pledge of Allegiance." />
+        <Input name="pledgeNotes" type="text" value={this.state.pledgeNotes} placeholder="pledgeNotes" onUserInput={ this.handleUserInput } />
+        <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={ this.handleUserInput } prefix="" suffix="welcomed members and guests," />
+        <Input name="guests" type="text" value={this.state.guests} placeholder="guests" onUserInput={this.handleUserInput} />
+        <Input name="businessNotes" type="text" value={this.state.businessNotes} placeholder="businessNotes" onUserInput={this.handleUserInput} prefix="During the business meeting," />
+        <Input name="toastmaster" type="text" value={this.state.toastmaster} placeholder="toastmaster" onUserInput={this.handleUserInput} prefix="" suffix="was called to the lectern. She made her opening comments and adjusted the agenda." />
+        <Input name="generalEvaluator" type="text" value={this.state.generalEvaluator} placeholder="generalEvaluator" onUserInput={this.handleUserInput} prefix="" suffix="discussed her duties and called on her team of functionaries." /> 
+        <Input name="grammarian" type="text" value={this.state.grammarian} placeholder="grammarian" onUserInput={this.handleUserInput} prefix="Grammarian:" />
+        <Input name="wordOfTheDay" type="text" value={this.state.wordOfTheDay} placeholder="wordOfTheDay" onUserInput={this.handleUserInput} prefix="Word of the Day:" />
+        <Input name="ahCounter" type="text" value={this.state.ahCounter} placeholder="ahCounter" onUserInput={this.handleUserInput} prefix="Ah Counter:" />
+        <Input name="timer" type="text" value={this.state.timer} placeholder="timer" onUserInput={this.handleUserInput} prefix="Timer:" />
+        <Input name="networkMaster" type="text" value={this.state.networkMaster} placeholder="networkMaster" onUserInput={this.handleUserInput} prefix="Networking Session with Networking Master:" />
+        <View>
+          <View style={styles.table}>
+            <Input name="respondent1" type="text" value={this.state.respondent1} placeholder="respondent1" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="respondent1Time" type="text" value={this.state.respondent1Time} placeholder="respondent1Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="respondent2" type="text" value={this.state.respondent2} placeholder="respondent2" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="respondent2Time" type="text" value={this.state.respondent2Time} placeholder="respondent2Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="respondent3" type="text" value={this.state.respondent3} placeholder="respondent3" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="respondent3Time" type="text" value={this.state.respondent3Time} placeholder="respondent3Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="respondent4" type="text" value={this.state.respondent4} placeholder="respondent4" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="respondent4Time" type="text" value={this.state.respondent4Time} placeholder="respondent4Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="respondent5" type="text" value={this.state.respondent5} placeholder="respondent5" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="respondent5Time" type="text" value={this.state.respondent5Time} placeholder="respondent5Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <Text style={styles.center}>Speakers</Text>
+        <View>
+          <View style={styles.table}>
+            <Input name="speaker1" type="text" value={this.state.speaker1} placeholder="speaker1" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="speaker1Time" type="text" value={this.state.speaker1Time} placeholder="speaker1Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="speaker2" type="text" value={this.state.speaker2} placeholder="speaker2" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="speaker2Time" type="text" value={this.state.speaker2Time} placeholder="speaker2Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="speaker3" type="text" value={this.state.speaker3} placeholder="speaker3" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="speaker3Time" type="text" value={this.state.speaker3Time} placeholder="speaker3Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="speaker4" type="text" value={this.state.speaker4} placeholder="speaker4" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="speaker4Time" type="text" value={this.state.speaker4Time} placeholder="speaker4Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="speaker5" type="text" value={this.state.speaker5} placeholder="speaker5" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="speaker5Time" type="text" value={this.state.speaker5Time} placeholder="speaker5Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <Text style={styles.center}>Evaluators</Text>
+        <View>
+          <View style={styles.table}>
+            <Input name="evaluator1" type="text" value={this.state.evaluator1} placeholder="evaluator1" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="evaluator1Time" type="text" value={this.state.evaluator1Time} placeholder="evaluator1Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="evaluator2" type="text" value={this.state.evaluator2} placeholder="evaluator2" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="evaluator2Time" type="text" value={this.state.evaluator2Time} placeholder="evaluator2Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="evaluator3" type="text" value={this.state.evaluator3} placeholder="evaluator3" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="evaluator3Time" type="text" value={this.state.evaluator3Time} placeholder="evaluator3Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="evaluator4" type="text" value={this.state.evaluator4} placeholder="evaluator4" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="evaluator4Time" type="text" value={this.state.evaluator4Time} placeholder="evaluator4Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <View>
+          <View style={styles.table}>
+            <Input name="evaluator5" type="text" value={this.state.evaluator5} placeholder="evaluator5" onUserInput={this.handleUserInput} />
+          </View>
+          <View style={styles.table}>
+            <Input name="evaluator5Time" type="text" value={this.state.evaluator5Time} placeholder="evaluator5Time" onUserInput={this.handleUserInput} />
+          </View>
+        </View>
+        <Input name="generalEvaluator" type="text" value={this.state.generalEvaluator} placeholder="generalEvaluator" onUserInput={this.handleUserInput} prefix="General Evaluator" suffix="leads Evaulation Session." />
+        <Input name="grammarian" type="text" value={this.state.grammarian} placeholder="grammarian" onUserInput={this.handleUserInput} prefix="Grammarian" suffix="noted use of the Word of the Day and Interesting Phrases." />
+        <Input name="ahCounter" type="text" value={this.state.ahCounter} placeholder="ahCounter" onUserInput={this.handleUserInput} prefix="Ah Counter" suffix="noted use of ahs and uhs, etc." />
+        <Input name="timer" type="text" value={this.state.timer} placeholder="timer" onUserInput={this.handleUserInput} prefix="Timer" suffix="reported the length of Time spoken by Networking Session Respondents, speaker(s) and evaluator(s)." /> 
+        <Input name="GEnotes" type="text" value={this.state.GEnotes} placeholder="GEnotes" onUserInput={this.handleUserInput} prefix="In his/her report, the General Evaluator noted" /> 
+        <Input name="toastmaster" type="text" value={this.state.toastmaster} placeholder="toastmaster" onUserInput={this.handleUserInput} prefix="Toastmaster" suffix="returned to the lectern, made his/her closing comments and returned control to Acting President" />
+        <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={this.handleUserInput} />
+        <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={this.handleUserInput} prefix="President" suffix="called on guests" />
+        <Input name="guests" type="text" value={this.state.guests} placeholder="guests" onUserInput={this.handleUserInput} prefix="to give their impression of the meeting." />
+        <Input name="notes" type="text" value={this.state.notes} placeholder="notes" onUserInput={this.handleUserInput} prefix="Notes:" />
+        <Text>Attendees were reminded to leave a tip for the servers.</Text>
+        <Text>Meeting adjourned.</Text>
+        <Text style={styles.body}>{this.state.saveTime}</Text>
+        <Button 
+          title="Save"
+          type="submit" 
+          name="submit" 
+          value="Save" 
+          onPress={ () => this.handleSubmit(this.state) } />
       </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
-  container: {
+  center:
+  {
+    textAlign: 'center',
+  },
+  container: 
+  {
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
+  tableLeft: 
+  {
+    backgroundColor: '#F5FCFF',
+    textAlign: 'left',
+  },
+  tableRight: 
+  {
+    backgroundColor: '#F5FCFF',
+    textAlign: 'right',
+  },
+  table: 
+  {
+    flex: 2,
+    backgroundColor: '#F5FCFF',
+  },
+  title: 
+  {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
   },
-  body: {
+  body: 
+  {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
