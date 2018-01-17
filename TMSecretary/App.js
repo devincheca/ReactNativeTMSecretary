@@ -21,6 +21,10 @@ export default class App extends Component<{}> {
     this.state = 
     {
       date: finalDate,
+      startTime: "",
+      breakStart: "",
+      breakReturn: "",
+      endTime: "",
       reqDate: "",
       saveTime: "",
       failed: "",
@@ -80,6 +84,18 @@ export default class App extends Component<{}> {
     {
       case "sgtAtArms":
         this.setState({ sgtAtArms: input });
+        break;
+      case "startTime":
+        this.setState({ startTime: input })
+        break;
+      case "breakStart":
+        this.setState({ breakStart: input })
+        break;
+      case "breakReturn":
+        this.setState({ breakReturn: input })
+        break;
+      case "endTime":
+        this.setState({ endTime: input })
         break;
       case "president":
         this.setState({ president: input });
@@ -230,6 +246,10 @@ export default class App extends Component<{}> {
     .then((initState) => 
     {
       this.setState({
+        startTime: initState.startTime,
+        breakStart: initState.breakStart,
+        breakReturn: initState.breakReturn,
+        endTime: initState.endTime,
         sgtAtArms: initState.sgtAtArms,
         president: initState.president,
         attendees: initState.attendees,
@@ -334,7 +354,8 @@ export default class App extends Component<{}> {
           DREAMBUILDERS TOASTMATERS CLUB MINUTES for {this.state.date}
         </Text>
         <Input name="sgtAtArms" type="text" value={this.state.sgtAtArms} placeholder="sgtAtArms" onUserInput={ this.handleUserInput } prefix="" suffix="announced a 2 minute warning." />
-        <Input name="attendees" type="text" value={this.state.attendees} placeholder="attendees" onUserInput={ this.handleUserInput } prefix="Attendees:"/>
+        <Input style={styles.wordWrap} name="attendees" type="text" value={this.state.attendees} placeholder="attendees" onUserInput={ this.handleUserInput } prefix="Attendees:"/>
+        <Input name="startTime" type="text" value={this.state.startTime} placeholder="startTime" onUserInput={this.handleUserInput} prefix="Start Time:" suffix="" />
         <Input name="sgtAtArms" type="text" value={this.state.sgtAtArms} placeholder="sgtAtArms" onUserInput={ this.handleUserInput } prefix="Sgt. at Arms" suffix="called the meeting to attention." />
         <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={ this.handleUserInput } prefix="President" suffix="called the meeting to order." />
         <Input name="pledge" type="text" value={this.state.pledge} placeholder="pledge" onUserInput={ this.handleUserInput } prefix="" suffix="led the club in the Pledge of Allegiance." />
@@ -388,6 +409,10 @@ export default class App extends Component<{}> {
           <View style={styles.table}>
             <Input name="respondent5Time" type="text" value={this.state.respondent5Time} placeholder="respondent5Time" onUserInput={this.handleUserInput} />
           </View>
+        </View>
+        <View>
+          <Input name="breakStart" type="text" value={this.state.breakStart} placeholder="breakStart" onUserInput={this.handleUserInput} prefix="Break Start Time:" suffix="" />
+          <Input name="breakReturn" type="text" value={this.state.breakReturn} placeholder="breakReturn" onUserInput={this.handleUserInput} prefix="Break Return Time:" suffix="" />
         </View>
         <Text style={styles.center}>Speakers</Text>
         <View>
@@ -481,6 +506,7 @@ export default class App extends Component<{}> {
         <Input name="president" type="text" value={this.state.president} placeholder="president" onUserInput={this.handleUserInput} prefix="President" suffix="called on guests" />
         <Input name="guests" type="text" value={this.state.guests} placeholder="guests" onUserInput={this.handleUserInput} prefix="to give their impression of the meeting." />
         <Input name="notes" type="text" value={this.state.notes} placeholder="notes" onUserInput={this.handleUserInput} prefix="Notes:" />
+        <Input name="endTime" type="text" value={this.state.endTime} placeholder="endTime" onUserInput={this.handleUserInput} prefix="End Time:" suffix="" />
         <Text>Attendees were reminded to leave a tip for the servers.</Text>
         <Text>Meeting adjourned.</Text>
         <Text style={styles.body}>{this.state.saveTime}</Text>
@@ -530,5 +556,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  viewWrap:
+  {
+    flexDirection: 'row',
+  },
+  wordWrap:
+  {
+    flex: 1,
+    flexGrow: 1,
+    flexWrap: 'wrap',
   },
 });
